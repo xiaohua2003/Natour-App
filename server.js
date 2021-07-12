@@ -7,10 +7,25 @@ const DB=process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWOR
 mongoose.connect(DB,{useNewUrlParser:true, 
     useCreateIndex:true,
     useFindAndModify:false
-}).then(con=>{
-    
+}).then(con=>{ 
     console.log('connection was successful')
 });
+const tourSchema=new mongoose.Schema({
+    name:{
+        type:String,
+        required:[true, 'A tour must have a name'],
+        unique:true
+    },
+    rating:{
+        type:Number,
+        default:4.5
+    },
+    price:{
+        type:Number,
+        required:[true, 'A tour must have a price']
+    }
+});
+const Tour=mongoose.model('Tour',tourSchema);
 //start server
 const port = 5000||process.env.PORT
 app.listen(port, () => {
